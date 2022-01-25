@@ -12,3 +12,21 @@ Request/Response wrapper for AWS Lambda with API Gateway
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
+
+## Setup
+
+```sh
+poetry install
+pre-commit install
+pre-commit run --all-files
+```
+
+## Contributing
+
+Contributions are welcome via pull requests.
+
+## Issues
+
+If you encounter any problems, please file an
+[issue](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/issues) along with a
+detailed description.
