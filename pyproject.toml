@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-lambda-requests-wrapper"
-version = "0.1.3"
+version = "0.1.4"
 description = "Request/Response wrapper for AWS Lambda with API Gateway"
 authors = ["rikhilrai"]
 license = "MIT"
@@ -47,9 +47,9 @@ mypy = "^0.910"
 black = "^21.12b0"
 flake8 = "^4.0.1"
 isort = "^5.10.1"
-pre-commit = "^2.16.0"
+pre-commit = "^2.17.0"
 pytest = "^6.2.5"
-pylint = "^2.4.4"
+pylint = "^2.12.2"
 autoflake = "^1.4"
 
 [build-system]
