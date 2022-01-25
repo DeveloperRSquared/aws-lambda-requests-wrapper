@@ -90,13 +90,13 @@ jobs:
             exit 1;
           fi
           # TODO(rikhil): change this to a warning / PR comment
-          git fetch --no-tags && git checkout main
-          PREVIOUS_VERSION=$(poetry version --short)
-          echo "Current version: ${NEW_VERSION}. Previous version: ${PREVIOUS_VERSION}."
-          if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
-            echo "Bump project version. Exiting ..."
-            exit 1;
-          fi
+          # git fetch --no-tags && git checkout main
+          # PREVIOUS_VERSION=$(poetry version --short)
+          # echo "Current version: ${NEW_VERSION}. Previous version: ${PREVIOUS_VERSION}."
+          # if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
+          #   echo "Bump project version. Exiting ..."
+          #   exit 1;
+          # fi
 
       - name: Deploy to Test PyPI (dry run)
         env:

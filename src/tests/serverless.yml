@@ -1,0 +1,48 @@
+service: lambda-requests
+frameworkVersion: '2 || 3'
+
+plugins:
+  - serverless-python-requirements
+
+provider:
+  name: aws
+  runtime: python3.9
+  lambdaHashingVersion: '20201221'
+  httpApi:
+    cors: true
+
+custom:
+  pythonRequirements:
+    fileName: ../requirements.txt
+    dockerizePip: false
+    dockerImage: lambci/lambda:build-python3.8
+    usePoetry: false
+
+functions:
+  listResource:
+    handler: crud.list_resource
+    events:
+      - httpApi:
+          method: GET
+          path: /resources
+
+  getResource:
+    handler: crud.get_resource
+    events:
+      - httpApi:
+          method: GET
+          path: /resources/{personId}
+
+  createResource:
+    handler: crud.create_resource
+    events:
+      - httpApi:
+          method: POST
+          path: /resources
+
+  getResourceV2:
+    handler: crud.get_resource_v2
+    events:
+      - httpApi:
+          method: GET
+          path: /v2/resources

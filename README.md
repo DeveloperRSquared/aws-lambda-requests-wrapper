@@ -1,6 +1,6 @@
 # AWS Lambda Requests Wrapper
 
-Request/Response wrapper for AWS Lambda with API Gateway
+Request/Response wrapper for AWS Lambda with API Gateway.
 
 [![Build](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/build.yaml/badge.svg)](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/build.yaml)
 [![Deploy](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/deploy.yaml/badge.svg)](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/deploy.yaml)

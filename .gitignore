@@ -130,3 +130,7 @@ dmypy.json
 
 # IntelliJ’s project specific settings files
 .idea
+
+.vscode
+node_modules
+.serverless
