@@ -1,0 +1,98 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.7", "3.8", "3.9", "3.10" ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install poetry 1.1.10
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.1.10
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Check code style (black)
+        run: |
+          source $(poetry env info --path)/bin/activate
+          black --config $(pwd)/pyproject.toml .
+
+      - name: Check code style (flake8)
+        run: |
+          source $(poetry env info --path)/bin/activate
+          flake8 --config $(pwd)/.flake8
+
+      - name: Check lint (pylint)
+        run: |
+          source $(poetry env info --path)/bin/activate
+          pylint --rcfile $(pwd)/pyproject.toml src/aws_lambda_requests_wrapper src/tests
+
+      - name: Check typing (mypy)
+        run: |
+          source $(poetry env info --path)/bin/activate
+          mypy --config-file $(pwd)/pyproject.toml src/aws_lambda_requests_wrapper src/tests
+
+      - name: Run tests (pytest)
+        run: |
+          source $(poetry env info --path)/bin/activate
+          pytest -c $(pwd)/pyproject.toml src/tests
+
+      - name: Check project version
+        run: |
+          source $(poetry env info --path)/bin/activate
+          NEW_VERSION=$(poetry version --short)
+          git fetch --no-tags && git checkout master
+          PREVIOUS_VERSION=$(poetry version --short)
+          echo "NEW_VERSION: ${NEW_VERSION} PREVIOUS_VERSION: ${PREVIOUS_VERSION}"
+          if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
+            echo "Bump project version"
+            exit 1;
+          fi
+
+  build_test_pypi:
+    runs-on: ubuntu-latest
+    environment:
+      name: TestPyPI
+      url: https://test.pypi.org/legacy/
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Set up python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install poetry 1.1.10
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.1.10
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Deploy test PyPI dry-run
+        env:
+          POETRY_REPOSITORIES_TESTPYPI_URL: https://test.pypi.org/legacy/
+          POETRY_HTTP_BASIC_TESTPYPI_USERNAME: __token__
+          POETRY_HTTP_BASIC_TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_TOKEN }}
+        run: poetry publish --build --repository testpypi --dry-run

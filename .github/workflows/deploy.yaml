@@ -1,0 +1,65 @@
+name: Publish
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_test_pypi:
+    runs-on: ubuntu-latest
+    environment:
+      name: TestPyPI
+      url: https://test.pypi.org/legacy/
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Set up python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install poetry 1.1.10
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.1.10
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Deploy test PyPI
+        env:
+          POETRY_REPOSITORIES_TESTPYPI_URL: https://test.pypi.org/legacy/
+          POETRY_HTTP_BASIC_TESTPYPI_USERNAME: __token__
+          POETRY_HTTP_BASIC_TESTPYPI_PASSWORD: ${{secrets.TESTPYPI_API_TOKEN}}
+        run: poetry publish --build --repository testpypi
+
+  deploy_pypi:
+    runs-on: ubuntu-latest
+    environment:
+      name: PyPI
+      url: https://upload.pypi.org/legacy/
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Set up python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install poetry 1.1.10
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.1.10
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Deploy PyPI
+        env:
+          POETRY_HTTP_BASIC_PYPI_USERNAME: __token__
+          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: poetry publish --build
