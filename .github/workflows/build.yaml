@@ -60,7 +60,7 @@ jobs:
     needs: build
     environment:
       name: TestPyPI
-      url: https://test.pypi.org/legacy/
+      url: https://test.pypi.org/project/aws-lambda-requests-wrapper/
     steps:
       - uses: actions/checkout@v2
         with:
@@ -102,4 +102,4 @@ jobs:
           POETRY_REPOSITORIES_TESTPYPI_URL: https://test.pypi.org/legacy/
           POETRY_HTTP_BASIC_TESTPYPI_USERNAME: __token__
           POETRY_HTTP_BASIC_TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_TOKEN }}
-        run: poetry publish --build --repository testpypi --dry-run
+        run: poetry publish --dry-run --build --repository testpypi
