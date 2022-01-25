@@ -22,10 +22,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install poetry 1.1.10
+      - name: Install poetry 1.1.12
         uses: snok/install-poetry@v1
         with:
-          version: 1.1.10
+          version: 1.1.12
 
       - name: Install dependencies
         run: poetry install
@@ -59,7 +59,7 @@ jobs:
         run: |
           source $(poetry env info --path)/bin/activate
           NEW_VERSION=$(poetry version --short)
-          git fetch --no-tags && git checkout master
+          git fetch --no-tags && git checkout main
           PREVIOUS_VERSION=$(poetry version --short)
           echo "NEW_VERSION: ${NEW_VERSION} PREVIOUS_VERSION: ${PREVIOUS_VERSION}"
           if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
@@ -82,10 +82,10 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Install poetry 1.1.10
+      - name: Install poetry 1.1.12
         uses: snok/install-poetry@v1
         with:
-          version: 1.1.10
+          version: 1.1.12
 
       - name: Install dependencies
         run: poetry install
