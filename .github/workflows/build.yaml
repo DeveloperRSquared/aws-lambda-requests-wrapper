@@ -60,7 +60,7 @@ jobs:
     needs: build
     environment:
       name: TestPyPI
-      url: https://test.pypi.org/legacy/
+      url: https://test.pypi.org/project/aws-lambda-requests-wrapper/
     steps:
       - uses: actions/checkout@v2
         with:
@@ -84,16 +84,16 @@ jobs:
           source $(poetry env info --path)/bin/activate
           NEW_VERSION=$(poetry version --short)
           INIT_VERSION=`python -c 'from src.aws_lambda_requests_wrapper import __version__; print(__version__)' 2>&1`
-          echo "__version__ in __init__.py: ${INIT_VERSION}. Version in pyproject.toml: ${NEW_VERSION}"
+          echo "Version in __init__.py: ${INIT_VERSION}. Version in pyproject.toml: ${NEW_VERSION}."
           if [[ "${NEW_VERSION}" != "${INIT_VERSION}" ]]; then
             echo "__init__ and pyproject.toml versions do not match."
             exit 1;
           fi
           git fetch --no-tags && git checkout main
           PREVIOUS_VERSION=$(poetry version --short)
-          echo "NEW_VERSION: ${NEW_VERSION} PREVIOUS_VERSION: ${PREVIOUS_VERSION}"
+          echo "Current version: ${NEW_VERSION}. Previous version: ${PREVIOUS_VERSION}."
           if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
-            echo "Bump project version"
+            echo "Bump project version."
             exit 1;
           fi
 
@@ -102,4 +102,4 @@ jobs:
           POETRY_REPOSITORIES_TESTPYPI_URL: https://test.pypi.org/legacy/
           POETRY_HTTP_BASIC_TESTPYPI_USERNAME: __token__
           POETRY_HTTP_BASIC_TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_TOKEN }}
-        run: poetry publish --build --repository testpypi --dry-run
+        run: poetry publish --dry-run --build --repository testpypi

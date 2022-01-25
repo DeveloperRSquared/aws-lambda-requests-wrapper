@@ -1,4 +1,4 @@
-name: Publish
+name: Deploy
 on:
   push:
     tags:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: TestPyPI
-      url: https://test.pypi.org/legacy/
+      url: https://test.pypi.org/project/aws-lambda-requests-wrapper/
     steps:
       - uses: actions/checkout@v2
         with:
@@ -49,7 +49,7 @@ jobs:
     needs: deploy_test_pypi
     environment:
       name: PyPI
-      url: https://upload.pypi.org/legacy/
+      url: https://pypi.org/project/aws-lambda-requests-wrapper/
     steps:
       - uses: actions/checkout@v2
         with:
