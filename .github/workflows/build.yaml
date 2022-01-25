@@ -55,20 +55,9 @@ jobs:
           source $(poetry env info --path)/bin/activate
           pytest -c $(pwd)/pyproject.toml src/tests
 
-      - name: Check project version
-        run: |
-          source $(poetry env info --path)/bin/activate
-          NEW_VERSION=$(poetry version --short)
-          git fetch --no-tags && git checkout main
-          PREVIOUS_VERSION=$(poetry version --short)
-          echo "NEW_VERSION: ${NEW_VERSION} PREVIOUS_VERSION: ${PREVIOUS_VERSION}"
-          if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
-            echo "Bump project version"
-            exit 1;
-          fi
-
   build_test_pypi:
     runs-on: ubuntu-latest
+    needs: build
     environment:
       name: TestPyPI
       url: https://test.pypi.org/legacy/
@@ -90,7 +79,25 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - name: Deploy test PyPI dry-run
+      - name: Check project version
+        run: |
+          source $(poetry env info --path)/bin/activate
+          NEW_VERSION=$(poetry version --short)
+          INIT_VERSION=`python -c 'from src.aws_lambda_requests_wrapper import __version__; print(__version__)' 2>&1`
+          echo "__version__ in __init__.py: ${INIT_VERSION}. Version in pyproject.toml: ${NEW_VERSION}"
+          if [[ "${NEW_VERSION}" != "${INIT_VERSION}" ]]; then
+            echo "__init__ and pyproject.toml versions do not match."
+            exit 1;
+          fi
+          git fetch --no-tags && git checkout main
+          PREVIOUS_VERSION=$(poetry version --short)
+          echo "NEW_VERSION: ${NEW_VERSION} PREVIOUS_VERSION: ${PREVIOUS_VERSION}"
+          if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
+            echo "Bump project version"
+            exit 1;
+          fi
+
+      - name: Deploy to Test PyPI (dry run)
         env:
           POETRY_REPOSITORIES_TESTPYPI_URL: https://test.pypi.org/legacy/
           POETRY_HTTP_BASIC_TESTPYPI_USERNAME: __token__
