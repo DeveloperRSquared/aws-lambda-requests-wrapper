@@ -35,7 +35,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-            token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+            token: ${{ secrets.GITHUB_TOKEN }}
             commit-message: 'feature: update dependencies'
             title: 'feature: update dependencies'
             labels: |

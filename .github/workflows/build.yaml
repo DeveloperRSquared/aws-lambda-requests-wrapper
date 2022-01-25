@@ -86,14 +86,15 @@ jobs:
           INIT_VERSION=`python -c 'from src.aws_lambda_requests_wrapper import __version__; print(__version__)' 2>&1`
           echo "Version in __init__.py: ${INIT_VERSION}. Version in pyproject.toml: ${NEW_VERSION}."
           if [[ "${NEW_VERSION}" != "${INIT_VERSION}" ]]; then
-            echo "__init__ and pyproject.toml versions do not match."
+            echo "Versions do not match. Exiting ..."
             exit 1;
           fi
+          # TODO(rikhil): change this to a warning / PR comment
           git fetch --no-tags && git checkout main
           PREVIOUS_VERSION=$(poetry version --short)
           echo "Current version: ${NEW_VERSION}. Previous version: ${PREVIOUS_VERSION}."
           if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
-            echo "Bump project version."
+            echo "Bump project version. Exiting ..."
             exit 1;
           fi
 

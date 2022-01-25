@@ -32,8 +32,9 @@ jobs:
         run: |
           source $(poetry env info --path)/bin/activate
           VERSION=$(poetry version --short)
+          echo "Expected tag: refs/tags/v${VERSION}. Tag: ${{ github.ref }}."
           if [ "${{ github.ref }}" != "refs/tags/v${VERSION}" ]; then
-            echo "Version in setup.py: (v${VERSION}) is different to the tag: (${{ github.ref }})."
+            echo "Tag and expected tags do not match. Exiting ..."
             exit 1;
           fi
 
@@ -67,6 +68,16 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
+
+      - name: Check package version == tag
+        run: |
+          source $(poetry env info --path)/bin/activate
+          VERSION=$(poetry version --short)
+          echo "Expected tag: refs/tags/v${VERSION}. Tag: ${{ github.ref }}."
+          if [ "${{ github.ref }}" != "refs/tags/v${VERSION}" ]; then
+            echo "Tag and expected tags do not match. Exiting ..."
+            exit 1;
+          fi
 
       - name: Deploy PyPI
         env:
