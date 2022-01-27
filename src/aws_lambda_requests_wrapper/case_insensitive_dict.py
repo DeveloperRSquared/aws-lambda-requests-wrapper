@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from collections import abc
-from json import JSONEncoder
 from typing import Any
 from typing import Dict
 from typing import Iterator
@@ -11,44 +12,38 @@ from typing import Tuple
 class CaseInsensitiveDict(abc.MutableMapping):
     def __init__(self, data: Optional[Mapping[str, Any]] = None) -> None:
         # Mapping from lowercased key to tuple of (actual key, value)
-        self._store: Dict[str, Any] = {}
+        self._data: Dict[str, Any] = {}
         if data is None:
             data = {}
         self.update(data)
 
     def __setitem__(self, key: str, value: Any) -> None:
-        self._store[key.lower()] = (key, value)
+        self._data[key.lower()] = (key, value)
 
-    def __getitem__(self, key: str) -> None:
-        return self._store[key.lower()][1]
+    def __getitem__(self, key: str) -> Any:
+        return self._data[key.lower()][1]
 
     def __delitem__(self, key: str) -> None:
-        del self._store[key.lower()]
+        del self._data[key.lower()]
 
     def __iter__(self) -> Iterator[str]:
-        return (casedkey for casedkey, _ in self._store.values())
+        return (key for key, _ in self._data.values())
 
     def __len__(self) -> int:
-        return len(self._store)
+        return len(self._data)
 
     def lower_items(self) -> Iterator[Tuple[str, Any]]:
-        return ((lowerkey, keyval[1]) for (lowerkey, keyval) in self._store.items())
+        return ((key, val[1]) for key, val in self._data.items())
 
     def __eq__(self, other: Any) -> bool:
-        if isinstance(other, abc.Mapping):
-            other = CaseInsensitiveDict(other)
-        else:
+        if not isinstance(other, abc.Mapping):
+            # TODO(rikhil): check the correct behaviour here.
             return NotImplemented
-        # Compare insensitively
+        other = CaseInsensitiveDict(other)
         return dict(self.lower_items()) == dict(other.lower_items())
 
-    def copy(self):
-        return CaseInsensitiveDict(self._store.values())
+    def copy(self) -> CaseInsensitiveDict:
+        return CaseInsensitiveDict(dict(self._data.values()))
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'{self.__class__.__name__}({dict(self.items())!r})'
-
-
-class CaseInsensitiveDictEncoder(JSONEncoder):
-    def default(self, o: CaseInsensitiveDict) -> Dict[str, Any]:
-        return dict(o.items())
