@@ -13,12 +13,29 @@ Request/Response wrapper for AWS Lambda with API Gateway.
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 
-## Setup
+## Install
+
+Install and update using [pip](https://pypi.org/project/aws-lambda-requests-wrapper/).
 
 ```sh
-poetry install
-pre-commit install
-pre-commit run --all-files
+$ pip install -U aws-lambda-requests-wrapper
+```
+
+### First time setup
+
+```sh
+$ git clone git@github.com:DeveloperRSquared/aws-lambda-requests-wrapper.git
+$ cd aws-lambda-requests-wrapper
+$ poetry install
+$ source .venv/bin/activate
+$ pre-commit install
+$ pre-commit run --all-files
+```
+
+### Running tests
+
+```sh
+
 ```
 
 ## Contributing
