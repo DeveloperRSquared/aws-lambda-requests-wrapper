@@ -156,9 +156,12 @@ jobs:
           #   exit 1;
           # fi
 
-      - name: Deploy to Test PyPI (dry run)
+      - name: Build project for distribution
+        run: poetry build
+
+      - name: Publish to Test PyPI (dry run)
         env:
           POETRY_REPOSITORIES_TESTPYPI_URL: https://test.pypi.org/legacy/
           POETRY_HTTP_BASIC_TESTPYPI_USERNAME: __token__
           POETRY_HTTP_BASIC_TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_TOKEN }}
-        run: poetry publish --dry-run --build --repository testpypi
+        run: poetry publish --dry-run --repository testpypi
