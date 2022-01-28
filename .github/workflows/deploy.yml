@@ -1,4 +1,5 @@
 name: Deploy
+
 on:
   push:
     tags:
@@ -8,9 +9,11 @@ jobs:
   deploy_test_pypi:
     name: Deploy TestPyPI
     runs-on: ubuntu-latest
+
     environment:
       name: TestPyPI
       url: https://test.pypi.org/project/aws-lambda-requests-wrapper/
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -21,17 +24,34 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Get full Python version
+        id: full-python-version
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+
       - name: Install poetry 1.1.12
         uses: snok/install-poetry@v1
         with:
           version: 1.1.12
+
+      - name: Configure poetry
+        run: poetry config virtualenvs.in-project true
+
+      - name: Set up cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Ensure cache is healthy
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: timeout 10s poetry run pip --version || rm -rf .venv
 
       - name: Install dependencies
         run: poetry install
 
       - name: Check package version == tag
         run: |
-          source $(poetry env info --path)/bin/activate
           VERSION=$(poetry version --short)
           echo "Expected tag: refs/tags/v${VERSION}. Tag: ${{ github.ref }}."
           if [ "${{ github.ref }}" != "refs/tags/v${VERSION}" ]; then
@@ -39,20 +59,26 @@ jobs:
             exit 1;
           fi
 
-      - name: Deploy test PyPI
+      - name: Build project for distribution
+        run: poetry build
+
+      - name: Publish to Test PyPI
         env:
           POETRY_REPOSITORIES_TESTPYPI_URL: https://test.pypi.org/legacy/
           POETRY_HTTP_BASIC_TESTPYPI_USERNAME: __token__
           POETRY_HTTP_BASIC_TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_TOKEN }}
-        run: poetry publish --build --repository testpypi
+        run: poetry publish --repository testpypi
 
   deploy_pypi:
     name: Deploy TestPyPI
+
     runs-on: ubuntu-latest
     needs: deploy_test_pypi
+
     environment:
       name: PyPI
       url: https://pypi.org/project/aws-lambda-requests-wrapper/
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -63,18 +89,34 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Get full Python version
+        id: full-python-version
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+
       - name: Install poetry 1.1.12
         uses: snok/install-poetry@v1
         with:
           version: 1.1.12
 
+      - name: Configure poetry
+        run: poetry config virtualenvs.in-project true
+
+      - name: Set up cache
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Ensure cache is healthy
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: timeout 10s poetry run pip --version || rm -rf .venv
+
       - name: Install dependencies
         run: poetry install
 
       - name: Run tests (pytest)
-        run: |
-          source $(poetry env info --path)/bin/activate
-          pytest -c $(pwd)/pyproject.toml src/tests
+        run: poetry run python -m pytest -c $(pwd)/pyproject.toml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
@@ -92,11 +134,14 @@ jobs:
             exit 1;
           fi
 
-      - name: Deploy PyPI
+      - name: Build project for distribution
+        run: poetry build
+
+      - name: Publish to PyPI
         env:
           POETRY_HTTP_BASIC_PYPI_USERNAME: __token__
           POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: poetry publish --build
+        run: poetry publish
 
       - name: Create Release
         uses: actions/create-release@v1

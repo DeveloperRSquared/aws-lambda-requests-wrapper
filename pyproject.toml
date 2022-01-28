@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-lambda-requests-wrapper"
-version = "0.1.6"
+version = "0.1.7"
 description = "Request/Response wrapper for AWS Lambda with API Gateway"
 authors = ["rikhilrai"]
 license = "MIT"
@@ -42,6 +42,8 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.7"
 
+importlib-metadata = "^4.2.0"
+
 [tool.poetry.dev-dependencies]
 mypy = "^0.931"
 black = "^21.12b0"
@@ -82,15 +84,17 @@ exclude = '''
   | buck-out
   | build
   | dist
+  | node_modules
 )/
 '''
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--capture=no --log-cli-level=INFO --cov=src/aws_lambda_requests_wrapper/ --cov-report term-missing --cov-report=xml --cov-fail-under=90 --cov-config=./pyproject.toml --cov-config=./.coveragerc src/tests/"
+addopts = "--capture=no --log-cli-level=INFO --cov=src/aws_lambda_requests_wrapper/ --cov-report term-missing --cov-report=xml --cov-fail-under=90 --cov-config=./.coveragerc src/tests/"
 testpaths = [
     "tests",
 ]
+xfail_strict = true
 
 [tool.pylint.master]
 ignore = [
