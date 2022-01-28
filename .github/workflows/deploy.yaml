@@ -6,6 +6,7 @@ on:
 
 jobs:
   deploy_test_pypi:
+    name: Deploy TestPyPI
     runs-on: ubuntu-latest
     environment:
       name: TestPyPI
@@ -46,6 +47,7 @@ jobs:
         run: poetry publish --build --repository testpypi
 
   deploy_pypi:
+    name: Deploy TestPyPI
     runs-on: ubuntu-latest
     needs: deploy_test_pypi
     environment:
