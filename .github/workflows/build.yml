@@ -78,10 +78,11 @@ jobs:
         run: poetry run python -m mypy --config-file $(pwd)/pyproject.toml src/aws_lambda_requests_wrapper src/tests
 
       - name: Install pytest plugin
+        if: ${{ matrix.python-version == '3.10' }}
         run: poetry run pip install pytest-github-actions-annotate-failures
 
       - name: Run tests (pytest)
-        run: poetry run python -m pytest -c $(pwd)/pyproject.toml
+        run: poetry run python -m pytest src/tests/
 
   build_test_pypi:
     name: Build TestPyPI
