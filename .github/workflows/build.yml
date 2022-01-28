@@ -77,8 +77,11 @@ jobs:
       - name: Check typing (mypy)
         run: poetry run python -m mypy --config-file $(pwd)/pyproject.toml src/aws_lambda_requests_wrapper src/tests
 
+      - name: Install pytest plugin
+        run: poetry run pip install pytest-github-actions-annotate-failures
+
       - name: Run tests (pytest)
-        run: poetry run python -m pytest -c $(pwd)/pyproject.toml src/tests
+        run: poetry run python -m pytest -c $(pwd)/pyproject.toml
 
   build_test_pypi:
     name: Build TestPyPI
@@ -126,11 +129,8 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - name: Install pytest plugin
-        run: poetry run pip install pytest-github-actions-annotate-failures
-
       - name: Run tests (pytest)
-        run: poetry run python -m pytest -c $(pwd)/pyproject.toml src/tests
+        run: poetry run python -m pytest -c $(pwd)/pyproject.toml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2

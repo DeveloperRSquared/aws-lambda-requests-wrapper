@@ -88,7 +88,7 @@ exclude = '''
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--capture=no --log-cli-level=INFO --cov=src/aws_lambda_requests_wrapper/ --cov-report term-missing --cov-report=xml --cov-fail-under=90 --cov-config=./pyproject.toml --cov-config=./.coveragerc src/tests/"
+addopts = "--capture=no --log-cli-level=INFO --cov=src/aws_lambda_requests_wrapper/ --cov-report term-missing --cov-report=xml --cov-fail-under=90 src/tests/"
 testpaths = [
     "tests",
 ]
