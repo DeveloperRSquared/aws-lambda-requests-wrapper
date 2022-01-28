@@ -42,6 +42,8 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.7"
 
+importlib-metadata = "^4.2.0"
+
 [tool.poetry.dev-dependencies]
 mypy = "^0.931"
 black = "^21.12b0"
@@ -86,12 +88,12 @@ exclude = '''
 )/
 '''
 
-[tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "--capture=no --log-cli-level=INFO --cov=src/aws_lambda_requests_wrapper/ --cov-report term-missing --cov-report=xml --cov-fail-under=90 --cov-config=./.coveragerc src/tests/"
-testpaths = [
-    "tests",
-]
+# [tool.pytest.ini_options]
+# minversion = "6.0"
+# addopts = "--capture=no --log-cli-level=INFO --cov=src/aws_lambda_requests_wrapper/ --cov-report term-missing --cov-report=xml --cov-fail-under=90 --cov-config=./.coveragerc src/tests/"
+# testpaths = [
+#     "tests",
+# ]
 
 [tool.pylint.master]
 ignore = [

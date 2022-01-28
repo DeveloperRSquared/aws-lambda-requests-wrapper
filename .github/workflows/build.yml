@@ -81,7 +81,7 @@ jobs:
         run: poetry run pip install pytest-github-actions-annotate-failures
 
       - name: Run tests (pytest)
-        run: poetry run python -m pytest -c $(pwd)/pyproject.toml
+        run: poetry run python -m pytest src/tests
 
   build_test_pypi:
     name: Build TestPyPI
