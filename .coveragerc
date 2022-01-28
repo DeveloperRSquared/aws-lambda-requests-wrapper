@@ -1,0 +1,20 @@
+[run]
+branch = True
+source = aws_lambda_requests_wrapper
+
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self\.debug
+    pragma: no cover
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    @(abc\.)?abstractmethod
+
+fail_under = 80
+
+omit =
+    tests/*
+    **/__init__.py

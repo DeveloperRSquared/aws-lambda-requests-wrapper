@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.7", "3.8", "3.9", "3.10" ]
+        python-version: ['3.7', '3.8', '3.9', '3.10']
     steps:
       - uses: actions/checkout@v2
         with:
@@ -66,10 +66,10 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Set up python 3.8
+      - name: Set up python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: '3.10'
 
       - name: Install poetry 1.1.12
         uses: snok/install-poetry@v1
@@ -78,6 +78,17 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
+
+      - name: Run tests (pytest)
+        run: |
+          source $(poetry env info --path)/bin/activate
+          pytest -c $(pwd)/pyproject.toml src/tests
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Check project version
         run: |
@@ -90,13 +101,13 @@ jobs:
             exit 1;
           fi
           # TODO(rikhil): change this to a warning / PR comment
-          git fetch --no-tags && git checkout main
-          PREVIOUS_VERSION=$(poetry version --short)
-          echo "Current version: ${NEW_VERSION}. Previous version: ${PREVIOUS_VERSION}."
-          if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
-            echo "Bump project version. Exiting ..."
-            exit 1;
-          fi
+          # git fetch --no-tags && git checkout main
+          # PREVIOUS_VERSION=$(poetry version --short)
+          # echo "Current version: ${NEW_VERSION}. Previous version: ${PREVIOUS_VERSION}."
+          # if [[ "${NEW_VERSION}" == "${PREVIOUS_VERSION}" ]]; then
+          #   echo "Bump project version. Exiting ..."
+          #   exit 1;
+          # fi
 
       - name: Deploy to Test PyPI (dry run)
         env:
