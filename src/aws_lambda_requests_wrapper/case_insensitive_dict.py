@@ -37,13 +37,12 @@ class CaseInsensitiveDict(abc.MutableMapping):
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, abc.Mapping):
-            # TODO(rikhil): check the correct behaviour here.
-            return NotImplemented
-        other = CaseInsensitiveDict(other)
+            return False
+        other = CaseInsensitiveDict(data=other)
         return dict(self.lower_items()) == dict(other.lower_items())
 
     def copy(self) -> CaseInsensitiveDict:
-        return CaseInsensitiveDict(dict(self._data.values()))
+        return CaseInsensitiveDict(data=dict(self._data.values()))
 
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}({dict(self.items())!r})'

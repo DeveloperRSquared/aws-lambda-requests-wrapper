@@ -23,6 +23,61 @@ Install and update using [pip](https://pypi.org/project/aws-lambda-requests-wrap
 $ pip install -U aws-lambda-requests-wrapper
 ```
 
+## Example
+
+Converts the lambda_handler syntax:
+
+```py
+import json
+
+def lambda_handler(event, context):
+    ...
+    response = {"key": "value"}
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": json.dumps(response)
+    }
+```
+
+into this:
+
+```py
+import json
+
+from aws_lambda_requests_wrapper.lambda_handler import lambda_request_wrapper
+from aws_lambda_requests_wrapper.models import Request
+from aws_lambda_requests_wrapper.models import Response
+
+@lambda_request_wrapper()
+def lambda_handler(request: Request) -> Response:
+    ...
+    response = {"key": "value"}
+    return Response(body=json.dumps(response))
+```
+
+or return a Pydantic model directly:
+
+```py
+from pydantic import BaseModel
+
+from aws_lambda_requests_wrapper.lambda_handler import lambda_request_wrapper
+from aws_lambda_requests_wrapper.models import Request
+
+class Model(BaseModel):
+    model_id: int
+
+@lambda_request_wrapper()
+def get_pydantic_model(request: Request) -> Model:
+    return Model(model_id=1)
+```
+
+## Contributing
+
+Contributions are welcome via pull requests.
+
 ### First time setup
 
 ```sh
@@ -30,6 +85,11 @@ $ git clone git@github.com:DeveloperRSquared/aws-lambda-requests-wrapper.git
 $ cd aws-lambda-requests-wrapper
 $ poetry install
 $ source .venv/bin/activate
+```
+
+Tools including black, mypy etc. will run automatically if you install [pre-commit](https://pre-commit.com) using the instructions below
+
+```sh
 $ pre-commit install
 $ pre-commit run --all-files
 ```
@@ -37,15 +97,11 @@ $ pre-commit run --all-files
 ### Running tests
 
 ```sh
-
+$ poetry run pytest
 ```
 
-## Contributing
+## Links
 
-Contributions are welcome via pull requests.
-
-## Issues
-
-If you encounter any problems, please file an
-[issue](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/issues) along with a
-detailed description.
+- Source Code: <https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/>
+- PyPI Releases: <https://pypi.org/project/aws-lambda-requests-wrapper/>
+- Issue Tracker: <https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/issues/>

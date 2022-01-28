@@ -1,6 +1,6 @@
 # https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning
 # https://github.com/github/codeql-action
-name: 'CodeQL'
+name: CodeQL
 
 on:
   push:

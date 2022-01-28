@@ -1,4 +1,6 @@
 # pylint: disable=no-self-use,protected-access
+from types import GeneratorType
+
 import pytest
 
 from aws_lambda_requests_wrapper.case_insensitive_dict import CaseInsensitiveDict
@@ -100,8 +102,8 @@ class TestLowerItems(CaseInsensitiveDictTestCase):
     # check returned value for empty data
     def test_lower_empty(self) -> None:
         case_insensitive_dict = CaseInsensitiveDict()
-        assert isinstance(case_insensitive_dict.lower_items(), list)
-        assert not case_insensitive_dict.lower_items()
+        assert isinstance(case_insensitive_dict.lower_items(), GeneratorType)
+        assert not list(case_insensitive_dict.lower_items())
 
 
 class TestEq(CaseInsensitiveDictTestCase):
@@ -112,13 +114,18 @@ class TestEq(CaseInsensitiveDictTestCase):
 
     # check equality (case insensitive)
     def test_equality_empty(self) -> None:
-        case_insensitive_dict = CaseInsensitiveDict({"A": "b"})
-        assert case_insensitive_dict == CaseInsensitiveDict({"a": "b"})
+        case_insensitive_dict = CaseInsensitiveDict()
+        assert case_insensitive_dict == CaseInsensitiveDict({})
 
     # check equality with dictionary
     def test_equality_dictionary(self) -> None:
         case_insensitive_dict = CaseInsensitiveDict({"A": "b"})
         assert case_insensitive_dict == {"A": "b"}
+
+    # check not equal
+    def test_not_equality(self) -> None:
+        case_insensitive_dict = CaseInsensitiveDict()
+        assert case_insensitive_dict != 1
 
 
 class TestCopy(CaseInsensitiveDictTestCase):
