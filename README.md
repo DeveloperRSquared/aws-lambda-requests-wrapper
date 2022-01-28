@@ -2,8 +2,8 @@
 
 Request/Response wrapper for AWS Lambda with API Gateway
 
-[![Build](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/build.yaml/badge.svg)](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/build.yaml)
-[![Deploy](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/deploy.yaml/badge.svg)](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/deploy.yaml)
+[![Build](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/build.yml/badge.svg)](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/build.yml)
+[![Publish](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/publish.yml/badge.svg)](https://github.com/DeveloperRSquared/aws-lambda-requests-wrapper/actions/workflows/publish.yml)
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-brightgreen.svg)](#aws-lambda-requests-wrapper)
 [![PyPI - License](https://img.shields.io/pypi/l/aws-lambda-requests-wrapper.svg)](LICENSE)

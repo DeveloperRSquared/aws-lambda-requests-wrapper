@@ -1,4 +1,4 @@
-name: Release
+name: Publish to TestPyPI
 
 on:
   push:
@@ -66,15 +66,6 @@ jobs:
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Check package version == tag
-        run: |
-          VERSION=$(poetry version --short)
-          echo "Expected tag: refs/tags/v${VERSION}. Tag: ${{ github.ref }}."
-          if [ "${{ github.ref }}" != "refs/tags/v${VERSION}" ]; then
-            echo "Tag and expected tags do not match. Exiting ..."
-            exit 1;
-          fi
 
       - name: Build project for distribution
         run: poetry build
