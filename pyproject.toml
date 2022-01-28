@@ -94,6 +94,7 @@ addopts = "--capture=no --log-cli-level=INFO --cov=src/aws_lambda_requests_wrapp
 testpaths = [
     "tests",
 ]
+xfail_strict = true
 
 [tool.pylint.master]
 ignore = [
