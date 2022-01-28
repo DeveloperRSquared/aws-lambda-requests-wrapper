@@ -7,6 +7,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
@@ -24,10 +28,6 @@ jobs:
           - os: Ubuntu
             image: ubuntu-latest
       fail-fast: false
-
-    defaults:
-      run:
-        shell: bash
 
     steps:
       - uses: actions/checkout@v2
