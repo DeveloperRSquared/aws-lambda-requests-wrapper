@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-lambda-requests-wrapper"
-version = "0.1.4"
+version = "0.1.5"
 description = "Request/Response wrapper for AWS Lambda with API Gateway"
 authors = ["rikhilrai"]
 license = "MIT"
@@ -51,6 +51,7 @@ pre-commit = "^2.17.0"
 pytest = "^6.2.5"
 pylint = "^2.12.2"
 autoflake = "^1.4"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -86,7 +87,7 @@ exclude = '''
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--capture=no --log-cli-level=INFO"
+addopts = "--capture=no --log-cli-level=INFO --cov datetime_helpers/ --cov=datetime_helpers --cov-report term-missing --cov-report=xml --cov-fail-under=90 --cov-config=./pyproject.toml --cov-config=./.coveragerc tests/"
 testpaths = [
     "tests",
 ]
