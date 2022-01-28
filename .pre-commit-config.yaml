@@ -55,7 +55,7 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: 'pylint'
+        entry: 'poetry run python -m pylint'
         types: [python]
         language: system
         args: ['--rcfile', 'pyproject.toml']

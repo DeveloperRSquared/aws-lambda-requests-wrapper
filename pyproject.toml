@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-lambda-requests-wrapper"
-version = "0.1.6"
+version = "0.1.7"
 description = "Request/Response wrapper for AWS Lambda with API Gateway"
 authors = ["rikhilrai"]
 license = "MIT"
@@ -82,6 +82,7 @@ exclude = '''
   | buck-out
   | build
   | dist
+  | node_modules
 )/
 '''
 

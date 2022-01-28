@@ -2,7 +2,7 @@ name: Update Dependencies
 
 on:
   schedule:
-    - cron:  '0 0 1 * *'
+    - cron: '0 0 1 * *'
   workflow_dispatch:
 
 jobs:
@@ -35,10 +35,10 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            commit-message: 'feature: update dependencies'
-            title: 'feature: update dependencies'
-            labels: |
-              patch
-            branch: update-dependencies
-            delete-branch: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'feature: update dependencies'
+          title: 'feature: update dependencies'
+          labels: |
+            patch
+          branch: update-dependencies
+          delete-branch: true
