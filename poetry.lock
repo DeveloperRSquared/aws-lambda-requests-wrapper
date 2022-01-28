@@ -47,7 +47,7 @@ pyflakes = ">=1.1.0"
 
 [[package]]
 name = "aws-lambda-typing"
-version = "2.9.9"
+version = "2.9.10"
 description = "A package that provides type hints for AWS Lambda event, context and response objects"
 category = "dev"
 optional = false
@@ -124,6 +124,17 @@ tomli = {version = "*", optional = true, markers = "extra == \"toml\""}
 
 [package.extras]
 toml = ["tomli"]
+
+[[package]]
+name = "datetime-helpers"
+version = "0.0.10"
+description = "Util for working with date and datetime objects"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+http-exceptions = ">=0.2.3,<1.0.0"
 
 [[package]]
 name = "distlib"
@@ -523,7 +534,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "1672484d2bd0ab1b0a92700853e47f0179fb5ef7feafc590187a44c688a65e10"
+content-hash = "d26cf3eec19ba2659389877dd4bdbfd9945b57799b9e26ad7f76cff004e0daf2"
 
 [metadata.files]
 astroid = [
@@ -542,8 +553,8 @@ autoflake = [
     {file = "autoflake-1.4.tar.gz", hash = "sha256:61a353012cff6ab94ca062823d1fb2f692c4acda51c76ff83a8d77915fba51ea"},
 ]
 aws-lambda-typing = [
-    {file = "aws-lambda-typing-2.9.9.tar.gz", hash = "sha256:4f6f26b2bdd85ec7cd49538faf1b46fc69342d3b78c9234eb42fa6582776d3d2"},
-    {file = "aws_lambda_typing-2.9.9-py3-none-any.whl", hash = "sha256:57399d63467944b67e5b36368a5e7aaada2dfdcf8fdbe0a67c207e860dbace8c"},
+    {file = "aws-lambda-typing-2.9.10.tar.gz", hash = "sha256:cd7f7effd3aa1c6a08e193b88671311f9a14a0f7b17d3f6085928bae29f34636"},
+    {file = "aws_lambda_typing-2.9.10-py3-none-any.whl", hash = "sha256:df54ba48ad740109670796518f7e81d6140703fa29f5d58936846afb593e3916"},
 ]
 black = [
     {file = "black-21.12b0-py3-none-any.whl", hash = "sha256:a615e69ae185e08fdd73e4715e260e2479c861b5740057fde6e8b4e3b7dd589f"},
@@ -606,6 +617,9 @@ coverage = [
     {file = "coverage-6.3-cp39-cp39-win_amd64.whl", hash = "sha256:e67ccd53da5958ea1ec833a160b96357f90859c220a00150de011b787c27b98d"},
     {file = "coverage-6.3-pp36.pp37.pp38-none-any.whl", hash = "sha256:27ac7cb84538e278e07569ceaaa6f807a029dc194b1c819a9820b9bb5dbf63ab"},
     {file = "coverage-6.3.tar.gz", hash = "sha256:987a84ff98a309994ca77ed3cc4b92424f824278e48e4bf7d1bb79a63cfe2099"},
+]
+datetime-helpers = [
+    {file = "datetime_helpers-0.0.10-py3-none-any.whl", hash = "sha256:ecaeea4788854cfecba3969be49dd24e4edc4ac0a5bdd74ae462c62c16a47961"},
 ]
 distlib = [
     {file = "distlib-0.3.4-py2.py3-none-any.whl", hash = "sha256:6564fe0a8f51e734df6333d08b8b94d4ea8ee6b99b5ed50613f731fd4089f34b"},
