@@ -44,8 +44,10 @@ python = "^3.7"
 datetime-helpers = "^0.0.8"
 pydantic = "^1.9.0"
 
+importlib-metadata = "^4.2.0"
+
 [tool.poetry.dev-dependencies]
-mypy = "^0.910"
+mypy = "^0.931"
 black = "^21.12b0"
 flake8 = "^4.0.1"
 isort = "^5.10.1"
@@ -54,6 +56,7 @@ pytest = "^6.2.5"
 pylint = "^2.12.2"
 autoflake = "^1.4"
 aws-lambda-typing = "^2.9.9"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -84,15 +87,17 @@ exclude = '''
   | buck-out
   | build
   | dist
+  | node_modules
 )/
 '''
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--capture=no --log-cli-level=INFO"
+addopts = "--capture=no --log-cli-level=INFO --cov=src/aws_lambda_requests_wrapper/ --cov-report term-missing --cov-report=xml --cov-fail-under=90 --cov-config=./.coveragerc src/tests/"
 testpaths = [
     "tests",
 ]
+xfail_strict = true
 
 [tool.pylint.master]
 ignore = [
