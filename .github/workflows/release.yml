@@ -1,23 +1,26 @@
-name: Deploy
+name: Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    paths:
+      # NOTE: this is a proxy for a version update
+      - 'pyproject.toml'
+      - '!docs/**'
+    branches:
+      - main
 
 defaults:
   run:
     shell: bash
 
 jobs:
-  deploy_pypi:
-    name: Deploy PyPI
-
+  release:
+    name: Release
     runs-on: ubuntu-latest
 
     environment:
-      name: PyPI
-      url: https://pypi.org/project/aws-lambda-requests-wrapper/
+      name: TestPyPI
+      url: https://test.pypi.org/project/aws-lambda-requests-wrapper/
 
     steps:
       - uses: actions/checkout@v2
@@ -55,9 +58,17 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
+      - name: Run tests (pytest)
+        run: poetry run python -m pytest -c $(pwd)/pyproject.toml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: Check package version == tag
         run: |
-          source $(poetry env info --path)/bin/activate
           VERSION=$(poetry version --short)
           echo "Expected tag: refs/tags/v${VERSION}. Tag: ${{ github.ref }}."
           if [ "${{ github.ref }}" != "refs/tags/v${VERSION}" ]; then
@@ -68,18 +79,9 @@ jobs:
       - name: Build project for distribution
         run: poetry build
 
-      - name: Publish to PyPI
+      - name: Publish to Test PyPI
         env:
-          POETRY_HTTP_BASIC_PYPI_USERNAME: __token__
-          POETRY_HTTP_BASIC_PYPI_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: poetry publish
-
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+          POETRY_REPOSITORIES_TESTPYPI_URL: https://test.pypi.org/legacy/
+          POETRY_HTTP_BASIC_TESTPYPI_USERNAME: __token__
+          POETRY_HTTP_BASIC_TESTPYPI_PASSWORD: ${{ secrets.TESTPYPI_TOKEN }}
+        run: poetry publish --repository testpypi
