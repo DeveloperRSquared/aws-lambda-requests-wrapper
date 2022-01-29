@@ -17,7 +17,7 @@ T = TypeVar('T')
 if sys.version_info < (3, 9):
     AbcMutableMapping = abc.MutableMapping
 else:
-    AbcMutableMapping = abc.MutableMapping[str, T]
+    AbcMutableMapping = abc.MutableMapping[str, T]  # pylint: disable=unsubscriptable-object
 
 
 class CaseInsensitiveDict(AbcMutableMapping, Generic[T]):
