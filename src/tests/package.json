@@ -1,0 +1,11 @@
+{
+  "name": "aws-lambda-requests-wrapper",
+  "version": "1.0.0",
+  "description": "Request-responsify AWS Lambda functions",
+  "author": "Developer RSquared",
+  "license": "ISC",
+  "dependencies": {
+    "serverless": "^2.72.2",
+    "serverless-python-requirements": "^5.3.0"
+  }
+}

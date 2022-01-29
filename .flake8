@@ -9,6 +9,7 @@ exclude =
     .env,
     .venv,
     versions,
-    migrations
+    migrations,
+    node_modules
 per-file-ignores =
     __init__.py:F401
