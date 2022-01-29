@@ -13,7 +13,7 @@ from typing import TypeVar
 T = TypeVar('T')
 
 
-class CaseInsensitiveDict(abc.MutableMapping[str, T], Generic[T]):
+class CaseInsensitiveDict(abc.MutableMapping[str, T], Generic[T]):  # pylint: disable=unsubscriptable-object
     def __init__(self, data: Optional[Mapping[str, T]] = None) -> None:
         # Mapping from lowercased key to tuple of (actual key, value)
         self._data: Dict[str, Tuple[str, T]] = {}
