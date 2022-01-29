@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import datetime
 from typing import TYPE_CHECKING
-from typing import Dict
 from typing import Mapping
 from typing import Optional
 
@@ -65,7 +64,7 @@ class Request(BaseModel):
 class Response(BaseModel):
     body: str
     status_code: int = 200
-    headers: Optional[Dict[str, str]] = None
+    headers: Optional[Mapping[str, str]] = None
 
     @classmethod
     def from_pydantic_model(cls, model: BaseModel) -> Response:
@@ -76,12 +75,10 @@ class Response(BaseModel):
         )
 
     def to_lambda_response(self) -> "APIGatewayProxyResponseV2":
-        body = self.body
-        headers = self.headers or {}
         lambda_response: "APIGatewayProxyResponseV2" = {
             "statusCode": self.status_code,
-            "body": body,
+            "body": self.body,
         }
-        if headers:
-            lambda_response["headers"] = headers
+        if self.headers is not None:
+            lambda_response["headers"] = dict(self.headers)
         return lambda_response

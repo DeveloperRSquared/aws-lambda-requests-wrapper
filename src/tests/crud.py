@@ -48,3 +48,8 @@ class Model(BaseModel):
 @lambda_request_wrapper()
 def get_pydantic_model(request: Request) -> Model:  # pylint: disable=unused-argument
     return Model(model_id=1)
+
+
+@lambda_request_wrapper()
+def return_non_jsonable_response(request: Request) -> int:  # pylint: disable=unused-argument
+    return 1

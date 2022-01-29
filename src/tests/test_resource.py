@@ -8,10 +8,12 @@ import pytest
 from aws_lambda_typing.context.context import Context
 from aws_lambda_typing.events.api_gateway_proxy import APIGatewayProxyEventV2
 from http_exceptions.client_exceptions import BadRequestException
+from http_exceptions.server_exceptions import InternalServerErrorException
 
 from tests.crud import get_pydantic_model
 from tests.crud import get_resource
 from tests.crud import get_resource_with_context
+from tests.crud import return_non_jsonable_response
 
 
 # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html
@@ -67,8 +69,6 @@ class LambdaHandlerTestCase:
 
 
 class TestGetResource(LambdaHandlerTestCase):
-    # check error if returning non BaseModel type
-
     # check returning a dictionary
     def test_curl_get(self) -> None:
         event = self.build_event()
@@ -120,3 +120,9 @@ class TestGetResource(LambdaHandlerTestCase):
         event = self.build_event(version='1.0')
         with pytest.raises(BadRequestException):
             get_resource(event=event, context=None)
+
+    # check error if returning non BaseModel type
+    def test_error_if_returning_non_base_model_type(self) -> None:
+        event = self.build_event()
+        with pytest.raises(InternalServerErrorException):
+            return_non_jsonable_response(event=event, context=None)
