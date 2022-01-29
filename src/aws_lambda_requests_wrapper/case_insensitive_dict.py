@@ -3,24 +3,28 @@ from __future__ import annotations
 from collections import abc
 from typing import Any
 from typing import Dict
+from typing import Generic
 from typing import Iterator
 from typing import Mapping
 from typing import Optional
 from typing import Tuple
+from typing import TypeVar
+
+T = TypeVar('T')
 
 
-class CaseInsensitiveDict(abc.MutableMapping):
-    def __init__(self, data: Optional[Mapping[str, Any]] = None) -> None:
+class CaseInsensitiveDict(abc.MutableMapping[str, T], Generic[T]):
+    def __init__(self, data: Optional[Mapping[str, T]] = None) -> None:
         # Mapping from lowercased key to tuple of (actual key, value)
-        self._data: Dict[str, Any] = {}
+        self._data: Dict[str, Tuple[str, T]] = {}
         if data is None:
             data = {}
         self.update(data)
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: T) -> None:
         self._data[key.lower()] = (key, value)
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> T:
         return self._data[key.lower()][1]
 
     def __delitem__(self, key: str) -> None:
@@ -32,16 +36,16 @@ class CaseInsensitiveDict(abc.MutableMapping):
     def __len__(self) -> int:
         return len(self._data)
 
-    def lower_items(self) -> Iterator[Tuple[str, Any]]:
+    def lower_items(self) -> Iterator[Tuple[str, T]]:
         return ((key, val[1]) for key, val in self._data.items())
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, abc.Mapping):
             return False
-        other = CaseInsensitiveDict(data=other)
-        return dict(self.lower_items()) == dict(other.lower_items())
+        other_dict = CaseInsensitiveDict[Any](data=other)
+        return dict(self.lower_items()) == dict(other_dict.lower_items())
 
-    def copy(self) -> CaseInsensitiveDict:
+    def copy(self) -> CaseInsensitiveDict[T]:
         return CaseInsensitiveDict(data=dict(self._data.values()))
 
     def __repr__(self) -> str:

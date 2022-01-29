@@ -4,10 +4,14 @@ import json
 from typing import Dict
 from typing import Optional
 
+import pytest
+from aws_lambda_typing.context.context import Context
 from aws_lambda_typing.events.api_gateway_proxy import APIGatewayProxyEventV2
+from http_exceptions.client_exceptions import BadRequestException
 
 from tests.crud import get_pydantic_model
 from tests.crud import get_resource
+from tests.crud import get_resource_with_context
 
 
 # aws-api-gateway-http-api-request-wrapper
@@ -17,6 +21,7 @@ from tests.crud import get_resource
 class LambdaHandlerTestCase:
     def build_event(
         self,
+        version: str = '2.0',
         method: str = 'POST',
         path: str = '/',
         raw_query_string: str = '',
@@ -30,7 +35,7 @@ class LambdaHandlerTestCase:
                 "accept": "text/html",
             }
         event: APIGatewayProxyEventV2 = {
-            "version": "2.0",
+            "version": version,
             "routeKey": f"GET {path}",
             "rawPath": f"{path}",
             "rawQueryString": raw_query_string,
@@ -64,6 +69,8 @@ class LambdaHandlerTestCase:
 
 
 class TestGetResource(LambdaHandlerTestCase):
+    # check error if returning non BaseModel type
+
     # check returning a dictionary
     def test_curl_get(self) -> None:
         event = self.build_event()
@@ -97,3 +104,21 @@ class TestGetResource(LambdaHandlerTestCase):
         response = get_resource(event=event, context=None)
         body = json.loads(response["body"])
         assert body["query_string_parameters"] == query_string_parameters
+
+    # check context sent
+    def test_context(self) -> None:
+        event = self.build_event()
+
+        class ContextCls(Context):
+            def __init__(self, function_name: str) -> None:
+                self.function_name = function_name
+
+        context = ContextCls(function_name='function_name')
+        response = get_resource_with_context(event=event, context=context)
+        assert json.loads(response['body'])['context'] == context.function_name
+
+    # check non v2.0 event
+    def test_non_v2_event(self) -> None:
+        event = self.build_event(version='1.0')
+        with pytest.raises(BadRequestException):
+            get_resource(event=event, context=None)

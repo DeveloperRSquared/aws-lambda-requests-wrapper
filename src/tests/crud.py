@@ -32,8 +32,13 @@ def get_resource(request: Request) -> Response:
 
 
 @lambda_request_wrapper()
+def get_resource_with_context(request: Request, context: Context) -> Response:  # pylint: disable=unused-argument
+    return Response(body=json.dumps({'context': context.function_name}))
+
+
+@lambda_request_wrapper()
 def create_resource(request: Request) -> Response:
-    return Response(body=request.json)
+    return Response(body=request.json())
 
 
 class Model(BaseModel):

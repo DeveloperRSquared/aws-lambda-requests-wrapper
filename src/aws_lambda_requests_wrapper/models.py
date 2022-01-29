@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 from datetime_helpers.utils import datetime_from_millis
 from http_exceptions.client_exceptions import BadRequestException
 from pydantic import BaseModel
+from pydantic import validator
 
 from aws_lambda_requests_wrapper.case_insensitive_dict import CaseInsensitiveDict
 
@@ -21,14 +22,19 @@ class Request(BaseModel):
     request_id: str
     method: str
     path: str
-    headers: CaseInsensitiveDict
+    headers: Mapping[str, str]
     time: datetime.datetime
     path_parameters: Optional[Mapping[str, str]] = None
     raw_query_string: Optional[str] = None
     query_string_parameters: Optional[Mapping[str, str]] = None
     data: Optional[str] = None
 
+    @validator('headers', pre=True)
+    def validate_headers(cls, value: Mapping[str, str]) -> CaseInsensitiveDict[str]:  # pylint: disable=no-self-argument,no-self-use
+        return CaseInsensitiveDict(data=value)
+
     class Config:
+        validate_assignment = True
         arbitrary_types_allowed = True
         json_encoders = {
             CaseInsensitiveDict: lambda case_insensitive_dict: dict(case_insensitive_dict._data.values()),  # pylint: disable=protected-access
