@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from collections import abc
 from typing import Any
 from typing import Dict
@@ -13,7 +14,13 @@ from typing import TypeVar
 T = TypeVar('T')
 
 
-class CaseInsensitiveDict(abc.MutableMapping[str, T], Generic[T]):  # pylint: disable=unsubscriptable-object
+if sys.version_info < (3, 9):
+    AbcMutableMapping = abc.MutableMapping
+else:
+    AbcMutableMapping = abc.MutableMapping[str, T]
+
+
+class CaseInsensitiveDict(AbcMutableMapping, Generic[T]):
     def __init__(self, data: Optional[Mapping[str, T]] = None) -> None:
         # Mapping from lowercased key to tuple of (actual key, value)
         self._data: Dict[str, Tuple[str, T]] = {}
