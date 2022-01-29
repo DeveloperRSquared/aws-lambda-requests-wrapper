@@ -14,8 +14,6 @@ from tests.crud import get_resource
 from tests.crud import get_resource_with_context
 
 
-# aws-api-gateway-http-api-request-wrapper
-# aws-lambda-api-gateway-request-wrapper
 # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-lambda.html
 # https://github.com/awsdocs/aws-lambda-developer-guide/blob/main/sample-apps/nodejs-apig/event-v2.json
 class LambdaHandlerTestCase:
