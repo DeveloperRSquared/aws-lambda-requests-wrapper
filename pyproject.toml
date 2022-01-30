@@ -44,7 +44,7 @@ python = "^3.7"
 datetime-helpers = "^0.0.10"
 pydantic = "^1.9.0"
 importlib-metadata = "^4.2.0"
-case-insensitive-dictionary = "^0.0.2"
+case-insensitive-dictionary = "^0.0.3"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.931"
