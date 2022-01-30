@@ -9,12 +9,11 @@ if TYPE_CHECKING:
     from aws_lambda_typing.events.api_gateway_proxy import APIGatewayProxyEventV2
     from aws_lambda_typing.responses.api_gateway_proxy import APIGatewayProxyResponseV2
 
+from case_insensitive_dict import CaseInsensitiveDict
 from datetime_helpers.utils import datetime_from_millis
 from http_exceptions.client_exceptions import BadRequestException
 from pydantic import BaseModel
 from pydantic import validator
-
-from aws_lambda_requests_wrapper.case_insensitive_dict import CaseInsensitiveDict
 
 
 class Request(BaseModel):
