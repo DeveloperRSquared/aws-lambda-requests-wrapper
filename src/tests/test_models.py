@@ -4,9 +4,9 @@ import json
 from typing import Mapping
 from typing import Optional
 
+from case_insensitive_dict import CaseInsensitiveDict
 from pydantic import BaseModel
 
-from aws_lambda_requests_wrapper.case_insensitive_dict import CaseInsensitiveDict
 from aws_lambda_requests_wrapper.models import Request
 from aws_lambda_requests_wrapper.models import Response
 
