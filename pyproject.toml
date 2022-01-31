@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-lambda-requests-wrapper"
-version = "0.2.1"
+version = "0.2.2"
 description = "Request/Response wrapper for AWS Lambda with API Gateway"
 authors = ["rikhilrai"]
 license = "MIT"
