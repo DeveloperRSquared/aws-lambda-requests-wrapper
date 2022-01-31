@@ -8,6 +8,7 @@ provider:
   name: aws
   runtime: python3.9
   lambdaHashingVersion: '20201221'
+  region: 'eu-west-2'
   httpApi:
     cors: true
 
