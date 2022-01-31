@@ -28,7 +28,7 @@ class Request(BaseModel):
     data: Optional[str] = None
 
     @validator('headers', pre=True)
-    def validate_headers(cls, value: Mapping[str, str]) -> CaseInsensitiveDict[str]:  # pylint: disable=no-self-argument,no-self-use
+    def validate_headers(cls, value: Mapping[str, str]) -> CaseInsensitiveDict[str, str]:  # pylint: disable=no-self-argument,no-self-use
         return CaseInsensitiveDict(data=value)
 
     class Config:
