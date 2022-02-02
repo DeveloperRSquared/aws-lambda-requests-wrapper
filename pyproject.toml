@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aws-lambda-requests-wrapper"
-version = "0.2.2"
+version = "0.2.3"
 description = "Request/Response wrapper for AWS Lambda with API Gateway"
 authors = ["rikhilrai"]
 license = "MIT"
@@ -41,9 +41,9 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.7"
-datetime-helpers = ">=0.0.10,<0.0.15"
+datetime-helpers = "^0.0.14"
 pydantic = "^1.9.0"
-importlib-metadata = "^4.2.0"
+importlib-metadata = { version = "<4.3", python = "<3.8" }
 case-insensitive-dictionary = "^0.1.1"
 
 [tool.poetry.dev-dependencies]
