@@ -131,7 +131,7 @@ toml = ["tomli"]
 
 [[package]]
 name = "datetime-helpers"
-version = "0.0.13"
+version = "0.0.14"
 description = "Util for working with date and datetime objects"
 category = "main"
 optional = false
@@ -139,7 +139,7 @@ python-versions = ">=3.7,<4.0"
 
 [package.dependencies]
 http-exceptions = ">=0.2.6,<0.3.0"
-importlib-metadata = ">=4.2.0,<5.0.0"
+importlib-metadata = {version = "<4.3", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "distlib"
@@ -542,7 +542,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "c18732ca9ccc0693a56a597c8d8aecd035777cbdb6529aca5de6bfb66311e8f5"
+content-hash = "298071951ea450448abde762ee9d17abe7d7b3f1b60f3e6a457a31435167220b"
 
 [metadata.files]
 astroid = [
@@ -649,8 +649,8 @@ coverage = [
     {file = "coverage-6.3.1.tar.gz", hash = "sha256:6c3f6158b02ac403868eea390930ae64e9a9a2a5bbfafefbb920d29258d9f2f8"},
 ]
 datetime-helpers = [
-    {file = "datetime-helpers-0.0.13.tar.gz", hash = "sha256:5b02ab421d2758088299d490a04f7d2ceca4eb5715d2b3db180be0b01c48d5e7"},
-    {file = "datetime_helpers-0.0.13-py3-none-any.whl", hash = "sha256:6dd0ac03e265cc9add2035e8232cf43a5fd442509b20b612f6fdcc1e92cbd03e"},
+    {file = "datetime-helpers-0.0.14.tar.gz", hash = "sha256:fec0a11afc75b8f3fee6417c1cd564b02e1a724cd8e05f4b1e21e4d4eeefa009"},
+    {file = "datetime_helpers-0.0.14-py3-none-any.whl", hash = "sha256:291c3795ad04cc223185c21e7b2c32496de87f48b2fabf1b8a8288db1c7ae4a5"},
 ]
 distlib = [
     {file = "distlib-0.3.4-py2.py3-none-any.whl", hash = "sha256:6564fe0a8f51e734df6333d08b8b94d4ea8ee6b99b5ed50613f731fd4089f34b"},
