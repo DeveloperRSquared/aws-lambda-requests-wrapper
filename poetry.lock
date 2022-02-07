@@ -81,11 +81,14 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "case-insensitive-dictionary"
-version = "0.1.1"
-description = "Case Insensitive Dictionary"
+version = "0.2.0"
+description = "Typed Python Case Insensitive Dictionary"
 category = "main"
 optional = false
 python-versions = ">=3.7,<4.0"
+
+[package.dependencies]
+importlib-metadata = {version = "<4.3", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "cfgv"
@@ -542,7 +545,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "0f9823c6cbf800d331d645b9da64d8e214374eb5e726ffaf7066d19451fd6f87"
+content-hash = "e0229d549e7675b14d6f0d1442652ef048fa5051c4ed5e577c6f1c98712aa916"
 
 [metadata.files]
 astroid = [
@@ -590,8 +593,8 @@ black = [
     {file = "black-22.1.0.tar.gz", hash = "sha256:a7c0192d35635f6fc1174be575cb7915e92e5dd629ee79fdaf0dcfa41a80afb5"},
 ]
 case-insensitive-dictionary = [
-    {file = "case-insensitive-dictionary-0.1.1.tar.gz", hash = "sha256:46fd80b0dd253c84a7c6c015813ff4e9c956de3306ccec8cdbd2d70ac0193be6"},
-    {file = "case_insensitive_dictionary-0.1.1-py3-none-any.whl", hash = "sha256:7307ae8292574e1e4fca0cd53d288cb7780e30da941e76dd1010eae39d4d550c"},
+    {file = "case-insensitive-dictionary-0.2.0.tar.gz", hash = "sha256:73684ef78fad72b47c2d27c8aa62e1ca819f2b6ae984f5987744289e74c1fbf2"},
+    {file = "case_insensitive_dictionary-0.2.0-py3-none-any.whl", hash = "sha256:b164cf3aa968633e133d617f94a4d147b1171a06415f56730748d8c3cd3104dc"},
 ]
 cfgv = [
     {file = "cfgv-3.3.1-py2.py3-none-any.whl", hash = "sha256:c6a0883f3917a037485059700b9e75da2464e6c27051014ad85ba6aaa5884426"},
