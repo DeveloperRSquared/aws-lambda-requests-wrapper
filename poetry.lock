@@ -47,7 +47,7 @@ pyflakes = ">=1.1.0"
 
 [[package]]
 name = "aws-lambda-typing"
-version = "2.9.11"
+version = "2.10.0"
 description = "A package that provides type hints for AWS Lambda event, context and response objects"
 category = "dev"
 optional = false
@@ -545,7 +545,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "8eb82826934458cf05f9213a62987e54b595551e9f39b837456aae90364eca17"
+content-hash = "feb1797c9ef7e366ae68cce264ff265b5fec75505aff601e80614ee02f6c02e9"
 
 [metadata.files]
 astroid = [
@@ -564,8 +564,8 @@ autoflake = [
     {file = "autoflake-1.4.tar.gz", hash = "sha256:61a353012cff6ab94ca062823d1fb2f692c4acda51c76ff83a8d77915fba51ea"},
 ]
 aws-lambda-typing = [
-    {file = "aws-lambda-typing-2.9.11.tar.gz", hash = "sha256:9856936cfdbdfb4486c5f8f1e31411c81c8cace38bd4329292da2f199fe1ad70"},
-    {file = "aws_lambda_typing-2.9.11-py3-none-any.whl", hash = "sha256:a554103ee142f8a3ec5e7a7044397e2ab3b4814eb68d4c40c5315f16ae512e72"},
+    {file = "aws-lambda-typing-2.10.0.tar.gz", hash = "sha256:e23f20581fe927e46432d96fb5d834400f15b39240dd81ab248036f6437e4c09"},
+    {file = "aws_lambda_typing-2.10.0-py3-none-any.whl", hash = "sha256:d8c76637bc1027ad3550cf940c02f29be9b52417c8994c571fbb591e8ae8a693"},
 ]
 black = [
     {file = "black-22.1.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:1297c63b9e1b96a3d0da2d85d11cd9bf8664251fd69ddac068b98dc4f34f73b6"},
